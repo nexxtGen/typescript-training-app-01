@@ -23,9 +23,15 @@ export default function IndexApp(): JSX.Element {
   };
 
   const completeTodo = (index: number): void => {
-    const newTodos: ITodo[] = todos;
+    const newTodos: ITodo[] = [...todos];
     newTodos[index].complete = !newTodos[index].complete;
 
+    setTodos(newTodos);
+  };
+
+  const removeTodo = (index: number): void => {
+    const newTodos: ITodo[] = [...todos];
+    newTodos.splice(index, 1);
     setTodos(newTodos);
   };
 
@@ -44,10 +50,15 @@ export default function IndexApp(): JSX.Element {
       <section>
         {todos.map((todo: ITodo, index: number) => (
           <Fragment key={index}>
-            <div>{todo.text}</div>
+            <div
+              style={{ textDecoration: todo.complete ? 'line-through' : '' }}
+            >
+              {todo.text}
+            </div>
             <button type='button' onClick={() => completeTodo(index)}>
               {todo.complete ? 'Incomplete' : 'Complete'}
             </button>
+            <button onClick={() => removeTodo(index)}>x</button>
           </Fragment>
         ))}
       </section>
